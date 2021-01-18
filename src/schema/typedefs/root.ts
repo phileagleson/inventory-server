@@ -4,5 +4,4 @@ const root = gql`
     hello: String
   }
 `
-
 export default root

@@ -1,41 +1,11 @@
-import express, { Application } from 'express'
-import { ApolloServer } from 'apollo-server-express'
-import mongoose from 'mongoose'
-import config from './config'
-import resolvers from './schema/resolvers'
+import DBHelper from './DBHelper'
+import App from './App'
+import config from './config.uat'
 import typeDefs from './schema/typedefs'
-import logger from './utils/logger'
+import resolvers from './schema/resolvers'
 
-const startServer = async (): Promise<void> => {
-  const app: Application = express()
-  const server: ApolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
-  })
+const app = new App(config, typeDefs, resolvers)
+const dbHelper = new DBHelper(config)
 
-  server.applyMiddleware({ app })
-
-  const options = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    user: config.MONGO_USER,
-    pass: config.MONGO_PASS,
-  }
-
-  try {
-    await mongoose.connect(config.DB_URI, options)
-    logger.info(`Connected to database on Worker Process ${process.pid}`)
-
-    app.listen({ port: config.PORT }, () => {
-      logger.info(
-        `Server ready at http://localhost:${config.PORT}${server.graphqlPath}`
-      )
-    })
-  } catch (err) {
-    logger.error(
-      `DB Connection error: ${err.stack} on Worker Process ${process.pid}`
-    )
-  }
-}
-
-startServer()
+app.startServer()
+dbHelper.connectToDb()
