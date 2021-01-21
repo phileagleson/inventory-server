@@ -1,6 +1,6 @@
 import { createLogger, transports, format } from 'winston'
 
-const timezoned = () => {
+export const timezoned = (): string => {
   return new Date().toLocaleString('en-US', {
     timeZone: 'America/New_York',
     hour12: false,

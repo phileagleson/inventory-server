@@ -1,7 +1,7 @@
-const root = {
+const rootResolver = {
   Query: {
     hello: (): string => 'Hello World',
   },
 }
 
-export default root
+export default rootResolver

@@ -19,7 +19,9 @@ class DBHelper {
 
     try {
       const conn = await mongoose.connect(this.config.DB_URI, options)
-      logger.info(`Connected to database on Worker Process ${process.pid}`)
+      if (!this.config.TESTING) {
+        logger.info(`Connected to database on Worker Process ${process.pid}`)
+      }
       return conn
     } catch (err) {
       logger.error(
@@ -32,7 +34,9 @@ class DBHelper {
   public async disconnectFromDb(): Promise<boolean> {
     try {
       await mongoose.connection.close(true)
-      logger.info('Disconnected from database')
+      if (!this.config.TESTING) {
+        logger.info('Disconnected from database')
+      }
       return true
     } catch (err) {
       logger.error(

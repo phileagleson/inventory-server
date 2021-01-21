@@ -1,5 +1,6 @@
-import root from './root'
+import rootTypedefs from './rootTypedefs'
+import itemTypedefs from './itemTypedefs'
 
-const typeDefs = [root]
+const typeDefs = [rootTypedefs, itemTypedefs]
 
 export default typeDefs

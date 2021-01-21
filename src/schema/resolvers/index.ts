@@ -1,5 +1,6 @@
-import root from './root'
+import rootResolver from './rootResolver'
+import itemResolver from './itemResolver'
 
-const resolvers = [root]
+const resolvers = [rootResolver, itemResolver]
 
 export default resolvers

@@ -1,4 +1,5 @@
 import { ApolloServer, IResolvers } from 'apollo-server-express'
+import { ContextFunction } from 'apollo-server-core'
 import express, { Application } from 'express'
 import { DocumentNode } from 'graphql'
 import { Server } from 'http'
@@ -11,20 +12,24 @@ class App {
   config: Config
   typeDefs: DocumentNode[]
   resolvers: IResolvers[]
+  context: ContextFunction
 
   constructor(
     config: Config,
     typeDefs: DocumentNode[],
-    resolvers: IResolvers[]
+    resolvers: IResolvers[],
+    context: ContextFunction
   ) {
     this.config = config
     this.typeDefs = typeDefs
     this.resolvers = resolvers
+    this.context = context
 
     this.app = express()
     this.server = new ApolloServer({
       typeDefs: this.typeDefs,
       resolvers: this.resolvers,
+      context: this.context,
     })
 
     this.server.applyMiddleware({ app: this.app })
