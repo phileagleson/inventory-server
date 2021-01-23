@@ -1,17 +1,22 @@
+import ItemType from './itemType'
+
+export enum ListTypes {
+  INVENTORY = 'inventory',
+  SHOPPING = 'shopping',
+}
+
 type ListType = {
   id: string
   name: string
-  image?: {
+  listType: ListTypes
+  image: {
     url: string
   }
   items: [
     {
-      id: string
-      name: string
-      image?: {
-        url: string
-      }
+      item: ItemType
       qty: number
+      completed: boolean
     }
   ]
 }

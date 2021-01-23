@@ -44,20 +44,12 @@ const itemResolver = {
 
       let results: FileType | null = null
       if (image) {
-        try {
-          results = await storeUpload(image)
-        } catch (err) {
-          throw new Error('Error saving image to file ' + err)
-        }
+        results = await storeUpload(image)
       }
 
       let url = ''
       if (results) {
-        try {
-          url = await uploadToCloud(results, config)
-        } catch (err) {
-          throw new Error('Error uploading image to cloud')
-        }
+        url = await uploadToCloud(results, config)
       }
 
       const newItem = new Item({ name: name.toLowerCase(), image: { url } })
@@ -71,27 +63,21 @@ const itemResolver = {
     ): Promise<ItemType> => {
       const { name, image } = itemInput
       // see if item already exist
-      const foundItem = await Item.findById(id)
-      if (!foundItem) {
+      let foundItem
+      try {
+        foundItem = await Item.findById(id)
+      } catch {
         throw new Error('Item does not exist in database')
       }
 
       let results: FileType | null = null
       if (image) {
-        try {
-          results = await storeUpload(image)
-        } catch (err) {
-          throw new Error('Error saving image to file ' + err)
-        }
+        results = await storeUpload(image)
       }
 
       let url = ''
       if (results) {
-        try {
-          url = await uploadToCloud(results, config)
-        } catch (err) {
-          throw new Error('Error uploading image to cloud')
-        }
+        url = await uploadToCloud(results, config)
       }
 
       if (name) {
@@ -110,9 +96,10 @@ const itemResolver = {
       { id }: IArgs,
       { Item, config, deleteImage }: IContext
     ): Promise<ItemType> => {
-      const deletedItem = await Item.findOneAndDelete({ _id: id })
-
-      if (!deletedItem) {
+      let deletedItem
+      try {
+        deletedItem = await Item.findOneAndDelete({ _id: id })
+      } catch {
         throw new Error('Item not found')
       }
 
