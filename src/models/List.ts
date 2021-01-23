@@ -27,7 +27,7 @@ const listSchema = new Schema(
     ],
     listType: {
       type: String,
-      enum: ['inventory', 'shopping'],
+      enum: ['inventory', 'master', 'shopping'],
       default: 'shopping',
     },
   },

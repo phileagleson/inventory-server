@@ -44,7 +44,12 @@ const listResolver = {
         throw new Error('Error - List already exists with this name')
       }
 
-      if (listType && listType !== 'shopping' && listType !== 'inventory') {
+      if (
+        listType &&
+        listType !== 'shopping' &&
+        listType !== 'master' &&
+        listType !== 'inventory'
+      ) {
         throw new Error('Error - Invalid List Type provided')
       }
 
@@ -88,6 +93,7 @@ const listResolver = {
       if (
         listType &&
         listType.toLowerCase() !== 'shopping' &&
+        listType.toLowerCase() !== 'master' &&
         listType.toLowerCase() !== 'inventory'
       ) {
         throw new Error('Error - Invalid list type specified')
